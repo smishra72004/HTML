@@ -1,0 +1,236 @@
+<html>
+    <head>
+        <title> Data Validation Form
+        </title>
+         <script language="Javascript">
+        //Validate Credit Cardholder
+        //Validate Credit Card Number
+        // 1. it should have 16 digits
+        // 2. it has to be a positive number
+
+        function isPositiveInteger(s) {
+            return /^\+?[1-9][\d]*$/.test(s);
+
+        }
+             
+        function ValidateCardNum() {
+            msg = CountWords();
+            alert(msg);
+            //var msg = '';
+            
+            var CardNum = document.form1.txtCardnum.value.toString();
+            //var pattern = new RegExp("/^[0-9]{1,16}$");
+
+            var Cardlength = CardNum.length;
+            if (Cardlength != 16) {
+                msg += 'Credit card number: not 16 char length';
+            }
+            else {
+                if (!isPositiveInteger(CardNum)) {
+                    if ((msg.trim().length) > 0) {
+                        msg += '\nCredit card number: not a valid positive integer.';
+                    }
+                    else {
+                        msg = '';
+                    }
+                }
+                else {
+                    msg = '';
+                }
+            }
+
+          
+            msg += ValidateExpiryDate();
+
+            if (msg == '') {
+                alert('Thank you for entering this information.');
+            }
+            else {
+
+                alert(msg);
+            }
+
+        }
+        
+        function CountWords() {
+            //var CardNum = document.form1.txtCardholder.value.toString();
+            var values = document.form1.txtCardholder.value.split(' ');
+            if (values.length > 0) {
+               // alert('should not exceed more than one space');
+                return ("should not exceed more than one space");
+            }
+        }
+             
+        function ValidateExpiryDate() {
+            var ExpMonth = document.form1.txtCardmonth.value.toString();
+            var ExpYear = document.form1.txtCardyear.value.toString();
+
+            if (!isPositiveInteger(ExpMonth)) {
+                if ((msg.trim().length) > 0) {
+                    msg += '\nExpiry Month: this is not a month.';
+                }
+                else {
+                    msg += 'Expiry Month: this is not a month.';
+                }
+            }
+            else {
+                msg = '';
+            }
+
+            if (!isPositiveInteger(ExpYear)) {
+                if ((msg.trim().length) > 0) {
+                    msg += '\nExpiry Year: this is not a year.';
+                }
+                else {
+                    msg += 'Expiry Year: this is not a year.';
+                }
+            }
+            else {
+                msg = '';
+            }
+
+            var currYear = new Date().getFullYear();
+            var currMonth = new Date().getMonth() + 1;
+
+            if (ExpYear < currYear) {
+                if ((msg.trim().length) > 0) {
+                    msg += '\nExpiry Year: your card has expired.';
+                }
+                else {
+                    msg += 'Expiry Year: your card has expired.';
+                }
+            }
+            else {
+                msg = '';
+            }
+
+            if (ExpMonth < currMonth) {
+                if ((msg.trim().length) > 0) {
+                    msg += '\nExpiry Month: your card has expired.';
+                }
+                else {
+                    msg += 'Expiry Month: your card has expired.';
+                }
+            }
+            else {
+                msg = '';
+            }
+
+
+            var futureYear = parseInt(currYear) - 1980;
+            if (ExpYear > futureYear) {
+                if ((msg.trim().length) > 0) {
+                    msg += '\nExpiry Year: year is too far ahead in the future.';
+                }
+                else {
+                    msg += 'Expiry Year: year is too far ahead in the future.';
+                }
+            }
+            else {
+                msg = '';
+            }
+
+            // length no equal to 2
+            if (ExpMonth.trim().length != 2) {
+
+                if ((msg.trim().length) > 0) {
+                    msg += '\nExpiry Month: 2 digits expected.';
+                }
+                else {
+                    msg += 'Expiry Month: 2 digits expected.';
+                }
+            }
+            else {
+
+                if (parseInt(ExpMonth) > 12) {
+                    if ((msg.trim().length) > 0) {
+                        msg += '\nExpiry Month: There are only 12 months.';
+                    }
+                    else {
+                        msg += 'Expiry Month: There are only 12 months.';
+                    }
+                }
+                else {
+                    msg = '';
+                }
+            }
+
+            if (ExpYear.trim().length != 2) {
+                if ((msg.trim().length) > 0) {
+                    msg += '\nExpiry Year: 2 digits expected.';
+                }
+                else {
+                    msg += 'Expiry Year: 2 digits expected.';
+                }
+            }
+            else {
+                msg = '';
+            }
+
+            return msg;
+
+        }
+    </script>
+        <style type="text/css">
+            .rcorners2 {
+                border-radius: 25px;
+                border: 2px solid #73AD21;
+                padding: 20px; 
+                width: 600px;
+                height: 150px; 
+            }
+            #footer {
+                position: absolute;
+                bottom: 0;
+                height: 200px; 
+                margin-top: 80px;
+                text-align: center; 
+                font-size: 14px;
+                font-family: 'Lato';
+            }
+        </style>
+    </head>
+    <body onLoad = txtCardholder.focus();>
+        <form name="form1" action="#">
+            <table border ="0" width="50%" align="center" class="rcorners2">
+            <tr><td colspan="2">&nbsp;</td></tr>  
+            <tr>
+                <td colspan="2" align="center"><h2> Credit Card Validation Form</h2></td>
+            </tr>
+            <tr><td colspan="2">&nbsp;</td></tr>    
+            <tr>
+                <td>Cardholder's Name:</td>
+                <td>
+                    <input type="text" name="txtCardholder" id = 'txtCardholder' style="width: 280px;"/>
+                    
+                </td>
+            </tr>
+            <tr><td colspan="2">&nbsp;</td></tr>  
+            <tr> 
+                <td>Card Number: </td>
+                <td><input type="text" name="txtCardnum" id='txtCardnum' style="width: 280px;"/> </td>
+            </tr> 
+            <tr><td colspan="2">&nbsp;</td></tr>  
+            <tr> 
+                <td>Card Expiry Date: </td>
+                <td>
+                    <input type="text" name="txtCardmonth" id = 'txtCardmonth' style="width: 80px;"> (ex: mm) / <input type="text" name="txtCardyear" id = 'txtCardyear' style="width: 80px;"> (ex: yy)
+                </td>
+                
+            </tr>
+                <tr><td colspan="2">&nbsp;</td></tr>  
+                    <tr><td colspan="2">&nbsp;</td></tr>  
+                <tr> 
+                    <td colspan="2" align="center">
+                        <input type="submit" name="submitbutton" value="Submit" onclick= "ValidateCardNum()"/>
+                    </td>
+                </tr>
+               
+            </table>
+            <div id="footer">
+                Simoni Mishra Pd. 6
+            </div>
+        </form>
+        
+    </body>
+</html>
